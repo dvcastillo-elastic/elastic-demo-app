@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dc-elastic-demo-frontend
+  labels:
+    app: dc-elastic-demo-frontend
+    division: "field"
+    org: "sa"
+    keep-until: "2025-04-01"
+    team: "amer-commercial"
+    project: "davidcastillo"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dc-elastic-demo-frontend
+  template:
+    metadata:
+      labels:
+        app: dc-elastic-demo-frontend
+        division: "field"
+        org: "sa"
+        keep-until: "2025-04-01"
+        team: "amer-commercial"
+        project: "davidcastillo"
+    spec:
+      containers:
+      - name: frontend
+        image: gcr.io/elastic-sa/dc-elastic-demo-frontend:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: REACT_APP_API_URL
+          value: "/api"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    division: "field"
+    org: "sa"
+    keep-until: "2025-04-01"
+    team: "amer-commercial"
+    project: "davidcastillo"
+spec:
+  selector:
+    app: dc-elastic-demo-frontend
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP

@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dc-elastic-demo-backend
+  labels:
+    app: dc-elastic-demo-backend
+    division: "field"
+    org: "sa"
+    keep-until: "2025-04-01"
+    team: "amer-commercial"
+    project: "davidcastillo"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dc-elastic-demo-backend
+  template:
+    metadata:
+      labels:
+        app: dc-elastic-demo-backend
+        division: "field"
+        org: "sa"
+        keep-until: "2025-04-01"
+        team: "amer-commercial"
+        project: "davidcastillo"
+    spec:
+      containers:
+      - name: backend
+        image: gcr.io/elastic-sa/dc-elastic-demo-backend:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-credentials
+              key: uri
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: jwt-secret
+              key: secret
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: node_env
+        - name: APM_SERVER_URL
+          valueFrom:
+            secretKeyRef:
+              name: elastic-apm-secret
+              key: server-url
+        - name: APM_SECRET_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: elastic-apm-secret
+              key: secret-token
+        - name: ELASTIC_APM_SERVER_URL  # Some Elastic agents use this naming
+          valueFrom:
+            secretKeyRef:
+              name: elastic-apm-secret
+              key: server-url
+        - name: ELASTIC_APM_SECRET_TOKEN  # Some Elastic agents use this naming
+          valueFrom:
+            secretKeyRef:
+              name: elastic-apm-secret
+              key: secret-token

@@ -2,8 +2,11 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: app-config
+  labels:
+    division: "field"
+    org: "sa"
+    keep-until: "2025-04-01"
+    team: "amer-commercial"
+    project: "davidcastillo"
 data:
-  mongodb_uri: "mongodb+srv://<username>:<password>@<cluster>.mongodb.net/elasticdemo?retryWrites=true&w=majority"
   node_env: "production"
-  api_url: "http://LOAD_BALANCER_URL/api"
-  apm_server_url: "https://YOUR_ELASTIC_APM_URL:443"

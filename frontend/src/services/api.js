@@ -1,8 +1,8 @@
-// src/services/api.js
 import axios from 'axios';
 
+// Use relative URLs for API requests (will be handled by nginx)
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api'
+  baseURL: '/api'
 });
 
 // Add a request interceptor to include auth token

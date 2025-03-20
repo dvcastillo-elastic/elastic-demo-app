@@ -1,11 +1,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: app-ingress
+  name: dc-elastic-demo-ingress
+  labels:
+    division: "field"
+    org: "sa"
+    keep-until: "2025-04-01"
+    team: "amer-commercial"
+    project: "davidcastillo"
   annotations:
-    kubernetes.io/ingress.class: "alb"
-    alb.ingress.kubernetes.io/scheme: "internet-facing"
-    alb.ingress.kubernetes.io/target-type: "ip"
+    kubernetes.io/ingress.class: "gce"
 spec:
   rules:
   - http:

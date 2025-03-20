@@ -1,19 +1,17 @@
-// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 
-// Initialize Elastic RUM
+// Initialize Elastic RUM with the recommended configuration
 import { init as initApm } from '@elastic/apm-rum';
 
 const apm = initApm({
   serviceName: 'elastic-demo-frontend',
-  serverUrl: process.env.REACT_APP_APM_SERVER_URL || 'http://localhost:8200',
-  environment: process.env.NODE_ENV || 'development',
-  distributedTracing: true,
-  logLevel: 'debug'
+  serverUrl: 'https://9f8397aa3ba3413fa762c139bc10e886.apm.us-east4.gcp.elastic-cloud.com:443',
+  serviceVersion: '1.0.0',
+  environment: 'production'
 });
 
 ReactDOM.render(

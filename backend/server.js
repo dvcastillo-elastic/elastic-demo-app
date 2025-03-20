@@ -9,7 +9,8 @@ require('dotenv').config();
 // Elastic APM agent setup
 const apm = require('elastic-apm-node').start({
   serviceName: 'elastic-demo-backend',
-  serverUrl: process.env.APM_SERVER_URL || 'http://localhost:8200',
+  secretToken: process.env.APM_SECRET_TOKEN,
+  serverUrl: process.env.APM_SERVER_URL,
   environment: process.env.NODE_ENV || 'development',
   captureBody: 'all'
 });
@@ -22,7 +23,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://mongo:27017/elasticdemo')
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
@@ -47,7 +48,7 @@ app.get('/', (req, res) => {
 });
 
 // Generate some random CPU/Memory load for profiling demo
-app.get('/load', (req, res) => {
+app.get('/api/load', (req, res) => {
   const startTime = Date.now();
   const duration = req.query.seconds ? parseInt(req.query.seconds) * 1000 : 5000;
   
